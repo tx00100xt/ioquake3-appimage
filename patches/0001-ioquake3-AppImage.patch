@@ -1,0 +1,151 @@
+--- a/Makefile	2024-02-22 19:56:48.223478541 +0300
++++ b/Makefile	2024-02-22 19:04:22.057277382 +0300
+@@ -2291,7 +2291,7 @@
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS) $(SDL_LIBS)
+ 
+ $(B)/renderer_opengl1_$(SHLIBNAME): $(Q3ROBJ) $(JPGOBJ)
+ 	$(echo_cmd) "LD $@"
+@@ -2307,13 +2307,13 @@
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS) $(SDL_LIBS)
+ 
+ $(B)/$(CLIENTBIN)_opengl2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(LIBSDLMAIN)
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS) $(SDL_LIBS)
+ endif
+ 
+ ifneq ($(strip $(LIBSDLMAIN)),)
+@@ -2461,7 +2461,7 @@
+ 
+ $(B)/$(SERVERBIN)$(FULLBINEXT): $(Q3DOBJ)
+ 	$(echo_cmd) "LD $@"
+-	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) -o $@ $(Q3DOBJ) $(LIBS)
++	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) -o $@ $(Q3DOBJ) $(LIBS) $(SDL_LIBS)
+ 
+ 
+ 
+--- a/code/qcommon/files.c	2024-02-22 19:56:32.616572824 +0300
++++ b/code/qcommon/files.c	2024-02-22 19:11:16.198964268 +0300
+@@ -32,7 +32,7 @@
+ #include "q_shared.h"
+ #include "qcommon.h"
+ #include "unzip.h"
+-
++#include <SDL2/SDL.h>
+ /*
+ =============================================================================
+ 
+@@ -172,6 +172,73 @@
+ 
+ */
+ 
++void AppImage_Window(void)
++{
++ 
++	typedef enum { false, true } BOOL;
++
++	if(SDL_Init(SDL_INIT_VIDEO) != 0 ) {
++		printf("SDL_Init Error: %s\n",SDL_GetError());
++	}
++
++	SDL_Window *sdl_window = SDL_CreateWindow("ioquake3 AppImage",
++        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 720, 0);
++	if(sdl_window == NULL) {
++		printf("SDL_Window Error: %s\n",SDL_GetError());
++	}
++ 
++	SDL_Renderer *sdl_renderer = SDL_CreateRenderer(sdl_window, -1, 0);
++	if(sdl_renderer == NULL) {
++		printf("SDL_Renderer Error: %s\n",SDL_GetError());
++	}
++
++	char path_with_bmp[4096]; 
++	char *path = SDL_GetBasePath();
++    strcpy(path_with_bmp, path);
++	strncat(path_with_bmp, "ioquake3.bmp", 12);
++    printf("Path to Texture: %s\n", (const char*)path_with_bmp);
++
++	SDL_Surface *sdl_image = SDL_LoadBMP((const char*)path_with_bmp);
++	if(sdl_image == NULL) {
++		printf("SDL_Surface Error: %s\n",SDL_GetError());
++	}
++	SDL_Texture *sdl_texture = SDL_CreateTextureFromSurface(sdl_renderer, sdl_image);
++	if(sdl_texture == NULL) {
++		printf("SDL_Texture Error: %s\n",SDL_GetError());
++	}
++
++	BOOL is_running = true;
++	SDL_Event sdl_event; // instantiate event class, to register events
++
++	while (is_running)
++	{
++		SDL_WaitEvent(&sdl_event);
++		switch (sdl_event.type)
++		{
++		case SDL_KEYDOWN:
++			if (sdl_event.key.keysym.sym == SDLK_ESCAPE) {
++				is_running = false;
++				break;
++			}
++		case SDL_WINDOWEVENT:
++			if (sdl_event.window.event == SDL_WINDOWEVENT_CLOSE) {
++				is_running = false;
++				break;
++			}
++		}
++		SDL_RenderCopy(sdl_renderer, sdl_texture, NULL, NULL); // copy texture to output device
++		SDL_RenderPresent(sdl_renderer); // commit texture to vram
++	}
++
++	// clear and exit
++	SDL_DestroyTexture(sdl_texture);
++	SDL_FreeSurface(sdl_image);
++	SDL_DestroyRenderer(sdl_renderer);
++	SDL_DestroyWindow(sdl_window);
++	SDL_Quit();
++	return;
++}
++
+ // every time a new demo pk3 file is built, this checksum must be updated.
+ // the easiest way to get it is to just run the game and see what it spits out
+ #ifndef STANDALONE
+@@ -3449,6 +3516,9 @@
+ 	}
+ #endif
+ 	Com_Printf( "%d files in pk3 files\n", fs_packFiles );
++    if (fs_packFiles == 0) {
++		AppImage_Window();
++    }
+ }
+ 
+ #ifndef STANDALONE
+--- a/code/sys/sys_main.c	2024-02-23 19:58:20.449826359 +0300
++++ b/code/sys/sys_main.c	2024-02-23 17:33:29.346200000 +0300
+@@ -504,6 +504,8 @@
+ =================
+ */
+ 
++#include <SDL2/SDL.h>
++
+ void *Sys_LoadDll(const char *name, qboolean useSystemLib)
+ {
+ 	void *dllhandle = NULL;
+@@ -526,7 +528,7 @@
+ 		char libPath[MAX_OSPATH];
+ 		int len;
+ 
+-		topDir = Sys_BinaryPath();
++		topDir = (const char *)SDL_GetBasePath();
+ 
+ 		if(!*topDir)
+ 			topDir = ".";

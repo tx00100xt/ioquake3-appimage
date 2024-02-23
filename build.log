@@ -1,0 +1,146 @@
+Command:
+
+$ SIGN=1 ./linuxdeploy-x86_64.AppImage --executable AppDir/usr/bin/ioquake3.x86_64 --desktop-file AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop --icon-file AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png --appdir AppDir --output appimage
+
+linuxdeploy version 1-alpha (git commit ID 2b73a21), GitHub actions build 261 built on 2024-02-01 01:03:24 UTC
+
+-- Creating basic AppDir structure -- 
+Creating directory AppDir/usr/bin/ 
+Creating directory AppDir/usr/lib/ 
+Creating directory AppDir/usr/share/applications/ 
+Creating directory AppDir/usr/share/icons/hicolor/ 
+Creating directory AppDir/usr/share/icons/hicolor/16x16/apps/ 
+Creating directory AppDir/usr/share/icons/hicolor/32x32/apps/ 
+Creating directory AppDir/usr/share/icons/hicolor/64x64/apps/ 
+Creating directory AppDir/usr/share/icons/hicolor/128x128/apps/ 
+Creating directory AppDir/usr/share/icons/hicolor/256x256/apps/ 
+Creating directory AppDir/usr/share/icons/hicolor/scalable/apps/ 
+
+-- Deploying dependencies for existing files in AppDir -- 
+Deploying dependencies for ELF file AppDir/usr/bin/ioq3ded.x86_64 
+Skipping deployment of blacklisted library /lib/x86_64-linux-gnu/libdl.so.2 
+Skipping deployment of blacklisted library /lib/x86_64-linux-gnu/libm.so.6 
+Deploying shared library /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libSDL2-2.0.so.0
+WARNING: Could not find copyright files for file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libSDL2-2.0.so.0 using dpkg-query 
+Skipping deployment of blacklisted library /lib/x86_64-linux-gnu/libc.so.6 
+Deploying shared library /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libsndio.so.6.1
+WARNING: Could not find copyright files for file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libsndio.so.6.1 using dpkg-query 
+Skipping deployment of blacklisted library /lib/x86_64-linux-gnu/libpthread.so.0 
+Skipping deployment of blacklisted library /lib/x86_64-linux-gnu/librt.so.1 
+Skipping deployment of blacklisted library /usr/lib/x86_64-linux-gnu/libasound.so.2 
+Deploying shared library /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libbsd.so.0
+WARNING: Could not find copyright files for file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libbsd.so.0 using dpkg-query 
+Deploying dependencies for ELF file AppDir/usr/bin/ioquake3.x86_64 
+Deploying dependencies for ELF file AppDir/usr/bin/renderer_opengl1_x86_64.so 
+Deploying dependencies for ELF file AppDir/usr/bin/renderer_opengl2_x86_64.so 
+Deploying dependencies for ELF file AppDir/usr/lib/libsndio.so.6.1 
+Deploying shared library /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libbsd.so.0
+WARNING: Could not find copyright files for file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libbsd.so.0 using dpkg-query 
+Deploying dependencies for ELF file AppDir/usr/lib/libbsd.so.0 
+Deploying dependencies for ELF file AppDir/usr/lib/libSDL2-2.0.so.0 
+Deploying shared library /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libsndio.so.6.1
+WARNING: Could not find copyright files for file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libsndio.so.6.1 using dpkg-query 
+
+-- Deploying executables -- 
+Deploying executable AppDir/usr/bin/ioquake3.x86_64 
+WARNING: Could not find copyright files for file AppDir/usr/bin/ioquake3.x86_64 using dpkg-query 
+Deploying dependencies for ELF file AppDir/usr/bin/ioquake3.x86_64 
+
+-- Copying files into AppDir -- 
+Copying file AppDir/usr/bin/ioquake3.x86_64 to AppDir/usr/bin/ioquake3.x86_64 
+Copying file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libSDL2-2.0.so.0 to AppDir/usr/lib/libSDL2-2.0.so.0 
+Copying file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libbsd.so.0 to AppDir/usr/lib/libbsd.so.0 
+Copying file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/bin/../lib/libsndio.so.6.1 to AppDir/usr/lib/libsndio.so.6.1 
+Copying file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libbsd.so.0 to AppDir/usr/lib/libbsd.so.0 
+Copying file /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/usr/lib/libsndio.so.6.1 to AppDir/usr/lib/libsndio.so.6.1 
+WARNING: Not calling strip on binary AppDir/usr/bin/ioquake3.x86_64: rpath starts with $ 
+WARNING: Not calling strip on binary AppDir/usr/lib/libSDL2-2.0.so.0: rpath starts with $ 
+WARNING: Not calling strip on binary AppDir/usr/lib/libbsd.so.0: rpath starts with $ 
+WARNING: Not calling strip on binary AppDir/usr/lib/libsndio.so.6.1: rpath starts with $ 
+Setting rpath in ELF file AppDir/usr/bin/ioq3ded.x86_64 to $ORIGIN/../lib 
+Setting rpath in ELF file AppDir/usr/bin/ioquake3.x86_64 to $ORIGIN/../lib 
+Setting rpath in ELF file AppDir/usr/bin/renderer_opengl1_x86_64.so to $ORIGIN/../lib 
+Setting rpath in ELF file AppDir/usr/bin/renderer_opengl2_x86_64.so to $ORIGIN/../lib 
+Setting rpath in ELF file AppDir/usr/lib/libSDL2-2.0.so.0 to $ORIGIN 
+Setting rpath in ELF file AppDir/usr/lib/libbsd.so.0 to $ORIGIN 
+Setting rpath in ELF file AppDir/usr/lib/libsndio.so.6.1 to $ORIGIN 
+
+-- Deploying icons -- 
+Deploying icon AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png 
+WARNING: Could not find copyright files for file AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png using dpkg-query 
+
+-- Deploying desktop files -- 
+Deploying desktop file AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop 
+
+-- Copying files into AppDir -- 
+Copying file AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop to AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop 
+Copying file AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png to AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png 
+
+-- Deploying files into AppDir root directory -- 
+Deploying files to AppDir root using desktop file: AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop 
+Deploying desktop file to AppDir root: AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop 
+Creating symlink for file AppDir/usr/share/applications/org.ioquake3.ioquake3.desktop in/as AppDir 
+Deploying icon to AppDir root: AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png 
+Creating symlink for file AppDir/usr/share/icons/hicolor/128x128/apps/quake3.png in/as AppDir 
+WARNING: Existing AppRun detected, skipping deployment of symlink 
+
+-- Running output plugin: appimage -- 
+[appimage/stdout] Found appimagetool: /tmp/.mount_linuxdnIPfZu/plugins/linuxdeploy-plugin-appimage/usr/bin/appimagetool
+[appimage/stderr] Warning: please use $LDAI_SIGN instead of $SIGN
+[appimage/stderr] Running command: /tmp/.mount_linuxdnIPfZu/plugins/linuxdeploy-plugin-appimage/usr/bin/appimagetool "AppDir" "-s"
+[appimage/stderr] 
+[appimage/stdout] 
+[appimage/stderr] appimagetool, continuous build (commit 5735cc5), build <local dev build> built on 2023-03-08 22:52:04 UTC
+[appimage/stdout] WARNING: appstreamcli command is missing, please install it if you want to use AppStream metadata
+[appimage/stderr] Using architecture x86_64
+[appimage/stdout] /home/jcryton/AppImage/OTHER/ioq3/build/AppDir/org.ioquake3.ioquake3.desktop: warning: key "Encoding" in group "Desktop Entry" is deprecated
+[appimage/stderr] AppStream upstream metadata found in usr/share/metainfo/org.ioquake3.ioquake3.appdata.xml
+[appimage/stderr] Generating squashfs...
+[appimage/stderr] Embedding ELF...
+[appimage/stdout] Parallel mksquashfs: Using 4 processors
+[appimage/stdout] Creating 4.0 filesystem on ioquake3-x86_64.AppImage, block size 131072.
+[appimage/stdout] [===============================================================/] 110/110 100%
+[appimage/stdout] 
+[appimage/stdout] Exportable Squashfs 4.0 filesystem, gzip compressed, data block size 131072
+[appimage/stdout] 	compressed data, compressed metadata, compressed fragments,
+[appimage/stdout] 	compressed xattrs, compressed ids
+[appimage/stdout] 	duplicates are removed
+[appimage/stdout] Filesystem size 4491.87 Kbytes (4.39 Mbytes)
+[appimage/stdout] 	36.36% of uncompressed filesystem size (12353.37 Kbytes)
+[appimage/stdout] Inode table size 1050 bytes (1.03 Kbytes)
+[appimage/stdout] 	49.11% of uncompressed inode table size (2138 bytes)
+[appimage/stdout] Directory table size 586 bytes (0.57 Kbytes)
+[appimage/stdout] 	49.29% of uncompressed directory table size (1189 bytes)
+[appimage/stdout] Number of duplicate files found 0
+[appimage/stdout] Number of inodes 51
+[appimage/stdout] Number of files 21
+[appimage/stdout] Number of fragments 3
+[appimage/stdout] Number of symbolic links  4
+[appimage/stdout] Number of device nodes 0
+[appimage/stdout] Number of fifo nodes 0
+[appimage/stdout] Number of socket nodes 0
+[appimage/stdout] Number of directories 26
+[appimage/stdout] Number of ids (unique uids + gids) 1
+[appimage/stdout] Number of uids 1
+[appimage/stdout] 	root (0)
+[appimage/stdout] Number of gids 1
+[appimage/stdout] 	root (0)
+[appimage/stderr] Marking the AppImage as executable...
+[appimage/stderr] Embedding MD5 digest
+[appimage/stderr] [sign] signing requested
+[appimage/stderr] [sign] found gpgme version 1.17.1
+[appimage/stderr] [sign] found gcrypt version 1.10.1
+[appimage/stderr] [sign] calculated digest: 894101f4b9c5e17ef4b8aaaef15f471656ce6b4613971f0eb91e26d9271ea56d
+[appimage/stderr] [sign] using engine OpenPGP (found in /usr/bin/gpg2), version 2.1.11, gpgme requires at least version 1.4.0
+[appimage/stderr] [sign] warning: gpg 2.1.x detected, APPIMAGETOOL_FORCE_SIGN can only work with allow-loopback-entry set within the gpg-agent configuration
+[appimage/stderr] [sign] using key with fingerprint 22597310B903C099BF99768ED1B5B78AC4A5311C, issuer name Alexander Pavlov
+[appimage/stderr] [sign] signed using pubkey algo RSA, hash algo SHA256, key fingerprint 6E9137E3B0FE3FDC67D70F2ECDC41982C027BAAA
+[appimage/stdout] /home/jcryton/AppImage/OTHER/ioq3/build/AppDir should be packaged as ioquake3-x86_64.AppImage
+[appimage/stderr] [sign] embedding signature in AppImage
+[appimage/stderr] [sign] embedding key in AppImage
+[appimage/stderr] Success
+[appimage/stderr] 
+[appimage/stderr] Please consider submitting your AppImage to AppImageHub, the crowd-sourced
+[appimage/stderr] central directory of available AppImages, by opening a pull request
+[appimage/stderr] at https://github.com/AppImage/appimage.github.io
+
