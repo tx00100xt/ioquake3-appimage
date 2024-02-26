@@ -57,7 +57,7 @@ jobs:
             mv -f ${{github.workspace}}/ioquake3-1.36_GIT-x86_64.AppImage ioquake3-${{ steps.date.outputs.time }}-1.36_GIT-x86_64.AppImage
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ioquake3-${{ steps.date.outputs.time }}-1.36_GIT-x86_64.AppImage
           path: ioquake3-${{ steps.date.outputs.time }}-1.36_GIT-x86_64.AppImage
