@@ -33,11 +33,23 @@ When you first start the game, you will be asked to place your game data along t
 You can place game data in these paths before starting the game. Then the game will start immediately.
 
 ## Verify
+All AppImages are signed, including those compiled using GitHub Action.  
 You can check the application signature by running the command in the terminal:
 ```
 ./ioquake3-1.36_GIT-x86_64.AppImage --appimage-signature
 ```
-Note: the application compiled using Github Action does not have a signature.
+Get keyid and verify:  
+```
+./ioquake3-20240226-1.36_GIT-x86_64.AppImage --appimage-signature | gpg --list-packets | grep keyid
+
+```
+```
+:signature packet: algo 1, keyid CDC41982C027BAAA
+```
+```
+gpg --recv-keys --keyserver keyserver.ubuntu.com  CDC41982C027BAAA
+
+```
 
 ### Build status
 |CI|Platform|Compiler|Configurations|Platforms|Status|
