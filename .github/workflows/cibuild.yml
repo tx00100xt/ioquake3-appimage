@@ -32,7 +32,7 @@ jobs:
       - name: List keys5
         run: gpg -K
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
