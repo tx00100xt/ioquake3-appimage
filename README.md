@@ -11,6 +11,9 @@ ioquake3-appimage
 </h1>
 <p align="center"><b>This is a AppImage for ioquake3</b>
 
+## Why?
+AppImage is a format for distributing portable software on Linux without needing superuser permissions to install the application  It tries also to allow Linux distribution-agnostic binary software deployment for application developers, also called Upstream packaging. Released first in 2004 under the name klik, it was continuously developed, then renamed in 2011 to PortableLinuxApps and later in 2013 to AppImage. [wikipedia](https://en.wikipedia.org/wiki/AppImage)
+
 ## Upstream
 All credits here:  
 https://ioquake3.org/  
