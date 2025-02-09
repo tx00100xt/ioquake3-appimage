@@ -223,7 +223,7 @@ struct GLTexture sdlLoadImage(const char* strFileName)
 	SDL_Surface* sdlImage = IMG_Load(path_with_img);
 	if (sdlImage == NULL) {
 		printf("Load %s failed\n", (const char*)path_with_img);
-		exit(1)	
+		exit(1);
 	}
 	SDL_Surface* sdlConvertedImage = SDL_ConvertSurfaceFormat(sdlImage, SDL_PIXELFORMAT_ABGR8888, 0);
 	
