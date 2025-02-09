@@ -1,0 +1,98 @@
+--- a/Makefile	2024-02-22 19:56:48.223478541 +0300
++++ b/Makefile	2024-02-22 19:04:22.057277382 +0300
+@@ -1904,6 +1904,7 @@
+   $(B)/client/common.o \
+   $(B)/client/cvar.o \
+   $(B)/client/files.o \
++  $(B)/client/appimage.o \
+   $(B)/client/md4.o \
+   $(B)/client/md5.o \
+   $(B)/client/msg.o \
+@@ -2415,7 +2416,7 @@
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(LIBS) $(SDL_LIBS) -lGL -lGLEW -lSDL2_image
+ 
+ $(B)/renderer_opengl1_$(SHLIBNAME): $(Q3ROBJ) $(JPGOBJ)
+ 	$(echo_cmd) "LD $@"
+@@ -2431,13 +2432,13 @@
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) $(Q3ROBJ) $(JPGOBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS) $(SDL_LIBS) -lGL -lGLEW -lSDL2_image
+ 
+ $(B)/$(CLIENTBIN)_opengl2$(FULLBINEXT): $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) $(LIBSDLMAIN)
+ 	$(echo_cmd) "LD $@"
+ 	$(Q)$(CC) $(CLIENT_CFLAGS) $(CFLAGS) $(CLIENT_LDFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) \
+ 		-o $@ $(Q3OBJ) $(Q3R2OBJ) $(Q3R2STRINGOBJ) $(JPGOBJ) \
+-		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS)
++		$(LIBSDLMAIN) $(CLIENT_LIBS) $(RENDERER_LIBS) $(LIBS) $(SDL_LIBS) -lGL -lGLEW -lSDL2_image
+ endif
+ 
+ ifneq ($(strip $(LIBSDLMAIN)),)
+@@ -2478,6 +2479,7 @@
+   $(B)/ded/common.o \
+   $(B)/ded/cvar.o \
+   $(B)/ded/files.o \
++  $(B)/client/appimage.o \
+   $(B)/ded/md4.o \
+   $(B)/ded/msg.o \
+   $(B)/ded/net_chan.o \
+@@ -2585,7 +2587,7 @@
+ 
+ $(B)/$(SERVERBIN)$(FULLBINEXT): $(Q3DOBJ)
+ 	$(echo_cmd) "LD $@"
+-	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) -o $@ $(Q3DOBJ) $(LIBS)
++	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) $(NOTSHLIBLDFLAGS) -o $@ $(Q3DOBJ) $(LIBS) $(SDL_LIBS) -lGL -lGLEW -lSDL2_image
+ 
+ 
+ 
+--- a/code/qcommon/files.c	2024-02-22 19:56:32.616572824 +0300
++++ b/code/qcommon/files.c	2024-02-22 19:11:16.198964268 +0300
+@@ -32,7 +32,8 @@
+ #include "q_shared.h"
+ #include "qcommon.h"
+ #include "unzip.h"
+-
++#include <SDL2/SDL.h>
++#include "appimage.h"
+ /*
+ =============================================================================
+ 
+@@ -3449,6 +3452,13 @@
+ 	}
+ #endif
+ 	Com_Printf( "%d files in pk3 files\n", fs_packFiles );
++    if (fs_packFiles == 0) {
++		appCreate(1280, 720);
++		appRun();
++		shpExit();
++		sprExit();
++		appExit();
++    }
+ }
+ 
+ #ifndef STANDALONE
+--- a/code/sys/sys_main.c	2024-02-23 19:58:20.449826359 +0300
++++ b/code/sys/sys_main.c	2024-02-23 17:33:29.346200000 +0300
+@@ -504,6 +504,8 @@
+ =================
+ */
+ 
++#include <SDL2/SDL.h>
++
+ void *Sys_LoadDll(const char *name, qboolean useSystemLib)
+ {
+ 	void *dllhandle = NULL;
+@@ -526,7 +528,7 @@
+ 		char libPath[MAX_OSPATH];
+ 		int len;
+ 
+-		topDir = Sys_BinaryPath();
++		topDir = (const char *)SDL_GetBasePath();
+ 
+ 		if(!*topDir)
+ 			topDir = ".";

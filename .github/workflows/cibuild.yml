@@ -39,7 +39,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -qq -y libsdl2-dev libogg-dev libvorbis-dev &&
           sudo apt-get install -qq -y bison flex zlib1g-dev libxxhash-dev &&
-          sudo apt-get install libvulkan1 libvulkan-dev
+          sudo apt-get install libglew-dev libsdl2-image-dev
           
       - name: Get current date
         id: date
@@ -53,7 +53,7 @@ jobs:
       - name: Run Build
         run: |
             cd ${{github.workspace}}
-            ./build.sh
+            ./build-ogl.sh
             mv -f ${{github.workspace}}/ioquake3-1.36_GIT-x86_64.AppImage ioquake3-${{ steps.date.outputs.time }}-1.36_GIT-x86_64.AppImage
 
       - name: Upload artifact
