@@ -16,7 +16,7 @@
 #ifndef INCL_GAME_H
 #define INCL_GAME_H
 #ifdef PRAGMA_ONCE
-  #pragma once
+	#pragma once
 #endif
 
 #include <stdio.h>

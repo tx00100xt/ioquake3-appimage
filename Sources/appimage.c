@@ -20,18 +20,18 @@
 /************************************************************
  *                          Vars                            *
  ************************************************************/
-static double           maxFPS;
-static double           maxPeriod;
-static int              iHeight;       // window size Height
-static int              iWidth;        // window size Width
-static BOOL             bAppImageLoop;
-static GLuint			ulNumAttributes;
-static GLuint 			ulProgramID;	
-static GLuint 			ulVertexShadersID; 
-static GLuint 			ulFragmentShadersID;
-static GLuint 			vboID;
-static SDL_Event        sdlEvent;
-static SDL_Window       *sdlWindow;
+static double	maxFPS;
+static double	maxPeriod;
+static int		iHeight;		// window size Height
+static int		iWidth;			// window size Width
+static BOOL		bAppImageLoop;
+static GLuint		ulNumAttributes;
+static GLuint		ulProgramID;	
+static GLuint		ulVertexShadersID; 
+static GLuint		ulFragmentShadersID;
+static GLuint		vboID;
+static SDL_Event	sdlEvent;
+static SDL_Window	*sdlWindow;
 static struct GLTexture appTexture;
 
 /************************************************************
@@ -40,7 +40,7 @@ static struct GLTexture appTexture;
 void appCreate(int width, int height)
 {
 	bAppImageLoop = true;	// contains event loop trigger if true then loop continues
-	iWidth = 1280;			// by default the width is 1280 and the height of the window is 720
+	iWidth = 1280;		// by default the width is 1280 and the height of the window is 720
 	iHeight = 728;
 	ulNumAttributes = 0;
 	vboID = 0;
@@ -48,10 +48,10 @@ void appCreate(int width, int height)
 	ulVertexShadersID = 0;
 	ulFragmentShadersID = 0;
 
-	if(width) iWidth 	= width;		// initialize height and width
-	if(height) iHeight 	= height;
+	if(width) iWidth	= width;		// initialize height and width
+	if(height) iHeight	= height;
 	bAppImageLoop = true;				// any event loop trigger
-	appInitSDL();						// initialize the SDL library
+	appInitSDL();					// initialize the SDL library
 	appInitShader();
 	sprInit(-1.0, -1.0, 2.0, 2.0);
 	
@@ -60,7 +60,7 @@ void appCreate(int width, int height)
 	//appTexture = sdlLoadImage("yamagi2.jpg");
 	//appTexture = sdlLoadImage("dhewm3.jpg");
 
-	// OpenGL frame rate limit	
+	// OpenGL frame rate limit
 	maxFPS = 60.0;
 	maxPeriod = 1.0 / maxFPS;
 }
@@ -69,26 +69,26 @@ void appInitSDL(void)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL_Init Error: %s\n",SDL_GetError());
-		exit(1);	
+		exit(1);
 	}
 
 	Uint32 ulFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 	sdlWindow = SDL_CreateWindow(" .: AppImage ioquake3 Window :. ", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, iWidth, iHeight, ulFlags);
 	if (!sdlWindow) {
 		printf("SDL_Window Error: %s\n",SDL_GetError());
-		exit(1);	
+		exit(1);
 	}
 
 	SDL_GLContext glContext = SDL_GL_CreateContext(sdlWindow);
 	if (glContext == NULL) {
 		printf("SDL_GL_CreateContext Error: %s\n",SDL_GetError());
-		exit(1);	
+		exit(1);
 	}
 
 	GLenum error = glewInit();
 	if (error != GLEW_OK) {
 		printf("GLEW init error!\n");
-		exit(1);	
+		exit(1);
 	}
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -105,18 +105,18 @@ void appInitShader(void)
 	const char * VShader = \
 R"(
 	#version 110
-	attribute vec2 	vertPos;
-	attribute vec4 	vertCol;
-	attribute vec2 	vertUV;
-	varying vec4 	fragCol;
-	varying vec2 	fragPos;
-	varying vec2 	fragUV;
+	attribute vec2	vertPos;
+	attribute vec4	vertCol;
+	attribute vec2	vertUV;
+	varying vec4	fragCol;
+	varying vec2	fragPos;
+	varying vec2	fragUV;
 	void main()
 	{
-		gl_Position 	= vec4 (vertPos, 0.0, 1.0);
-		fragPos 		= vertPos;
-		fragCol 		= vertCol;
-		fragUV 			= vec2( vertUV.x, 1.0 - vertUV.y);
+		gl_Position	= vec4 (vertPos, 0.0, 1.0);
+		fragPos		= vertPos;
+		fragCol		= vertCol;
+		fragUV		= vec2( vertUV.x, 1.0 - vertUV.y);
 	}
 )";
 
@@ -124,11 +124,11 @@ R"(
 	const char * FShader = \
 R"(
 	#version 110
-	varying vec4 		fragCol;
-	varying vec2 		fragPos;
-	varying vec2 		fragUV;
-	uniform float 		brightness;
-	uniform sampler2D 	mSample;
+	varying vec4		fragCol;
+	varying vec2		fragPos;
+	varying vec2		fragUV;
+	uniform floa 		brightness;
+	uniform sampler2D	mSample;
 
 	void main()
 	{
@@ -151,15 +151,15 @@ void appRun(void)
 	double lastTime = 0.0;
 	while (bAppImageLoop)
 	{
-    	double time = SDL_GetTicks();
-    	double deltaTime = time - lastTime;
+		double time = SDL_GetTicks();
+		double deltaTime = time - lastTime;
 
-    	if( deltaTime >= maxPeriod ) {
-        	lastTime = time;
-        	// called with maxFPS (60)
+		if( deltaTime >= maxPeriod ) {
+		lastTime = time;
+		// called with maxFPS (60)
 			appUpdate();
 			appRender();
-    	}
+		}
 	}
 }
 
@@ -168,8 +168,8 @@ void appUpdate(void)
 	while (SDL_PollEvent(&sdlEvent))
 	{
 		switch (sdlEvent.type) {
-			case SDL_QUIT: {		
-					bAppImageLoop = false;										
+			case SDL_QUIT: {
+					bAppImageLoop = false;
 					break;
 				}
 			case SDL_KEYDOWN:
@@ -214,16 +214,16 @@ struct GLTexture sdlLoadImage(const char* strFileName)
 
 	char path_with_img[4096]; 
 	char *path = SDL_GetBasePath();
-    strcpy(path_with_img, path);
+	strcpy(path_with_img, path);
 	strncat(path_with_img, "ioquake3.jpg", 12);
 	//strncat(path_with_img, "yamagi2.jpg", 11);
 	//strncat(path_with_img, "dhewm3.jpg", 10);
-    printf("Path to Texture: %s\n", (const char*)path_with_img);
+	printf("Path to Texture: %s\n", (const char*)path_with_img);
 
 	SDL_Surface* sdlImage = IMG_Load(path_with_img);
 	if (sdlImage == NULL) {
 		printf("Load %s failed\n", (const char*)path_with_img);
-		exit(1);	
+		exit(1)	
 	}
 	SDL_Surface* sdlConvertedImage = SDL_ConvertSurfaceFormat(sdlImage, SDL_PIXELFORMAT_ABGR8888, 0);
 	
@@ -249,9 +249,9 @@ struct GLTexture sdlLoadImage(const char* strFileName)
 
 void appExit(void)
 {
-	if (sdlWindow) SDL_DestroyWindow(sdlWindow);  	// destroy the window	
-	sdlWindow = 0;									// reset the value, optional
-	SDL_Quit();										// exit SDL
+	if (sdlWindow) SDL_DestroyWindow(sdlWindow);	// destroy the window	
+	sdlWindow = 0;					// reset the value, optional
+	SDL_Quit();					// exit SDL
 }
 
 
@@ -291,7 +291,7 @@ void sprInit(float x, float y, float widht, float height)
 	vertexData[2].uv.u = 0.0f;
 	vertexData[2].uv.v = 0.0f;
 
-	// второй треугольник
+	// second triangle
 	vertexData[3].position.x = x;
 	vertexData[3].position.y = y;
 	vertexData[3].color.r = 255;
