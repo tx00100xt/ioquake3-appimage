@@ -127,7 +127,7 @@ R"(
 	varying vec4		fragCol;
 	varying vec2		fragPos;
 	varying vec2		fragUV;
-	uniform floa 		brightness;
+	uniform float		brightness;
 	uniform sampler2D	mSample;
 
 	void main()
